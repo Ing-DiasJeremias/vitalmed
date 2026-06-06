@@ -1,0 +1,1116 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Especialidades – Vitalmed</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300&display=swap" rel="stylesheet" />
+  <style>
+    /* ─── TOKENS ─────────────────────────────────────────── */
+    :root {
+      --blue:       #4180AB;
+      --blue-deep:  #1a3d5c;
+      --blue-mid:   #84B3CF;
+      --blue-light: #BDD1DE;
+      --gold:       #E4BF00;
+      --gold-hover: #c9aa00;
+      --text-dark:  #1e2b35;
+      --text-mid:   #3d5468;
+      --text-light: #ffffff;
+      --radius:     12px;
+      --radius-lg:  20px;
+      --shadow-sm:  0 2px 12px rgba(65,128,171,.12);
+      --shadow-md:  0 6px 32px rgba(65,128,171,.18);
+      --transition: .28s cubic-bezier(.4,0,.2,1);
+    }
+
+    /* ─── RESET ──────────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 16px;
+      color: var(--text-dark);
+      background: #fff;
+      overflow-x: hidden;
+    }
+    img { display: block; max-width: 100%; }
+    a { text-decoration: none; color: inherit; }
+
+    /* ─── HEADER ─────────────────────────────────────────── */
+    header {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      background: rgba(26, 61, 92, .92);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border-bottom: 1px solid rgba(255,255,255,.08);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 5vw;
+      height: 68px;
+    }
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: var(--text-light);
+    }
+    .logo-icon {
+      width: 36px; height: 36px;
+      background: var(--gold);
+      border-radius: 8px;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+    }
+    .logo-icon svg { width: 20px; height: 20px; }
+    .logo-wordmark {
+      font-family: 'DM Serif Display', serif;
+      font-size: 1.45rem;
+      letter-spacing: -.01em;
+      line-height: 1;
+    }
+    .logo-wordmark span { color: var(--gold); }
+
+    nav { display: flex; align-items: center; gap: 6px; }
+    nav a {
+      color: rgba(255,255,255,.78);
+      font-size: .9rem;
+      font-weight: 500;
+      padding: 7px 14px;
+      border-radius: 8px;
+      transition: color var(--transition), background var(--transition);
+      white-space: nowrap;
+    }
+    nav a:hover { color: #fff; background: rgba(255,255,255,.1); }
+    nav a.active { color: #fff; background: rgba(255,255,255,.12); }
+
+    .menu-toggle {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      cursor: pointer;
+      padding: 6px;
+      border: none;
+      background: none;
+    }
+    .menu-toggle span {
+      display: block;
+      width: 22px; height: 2px;
+      background: #fff;
+      border-radius: 2px;
+      transition: var(--transition);
+    }
+
+    /* ─── BUTTONS ────────────────────────────────────────── */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 14px 28px;
+      border-radius: var(--radius);
+      font-weight: 600;
+      font-size: .95rem;
+      font-family: 'DM Sans', sans-serif;
+      cursor: pointer;
+      border: none;
+      transition: transform var(--transition), box-shadow var(--transition), background var(--transition);
+      white-space: nowrap;
+    }
+    .btn:hover { transform: translateY(-2px); }
+    .btn-gold {
+      background: var(--gold);
+      color: var(--blue-deep);
+      box-shadow: 0 4px 20px rgba(228,191,0,.35);
+    }
+    .btn-gold:hover {
+      background: var(--gold-hover);
+      box-shadow: 0 8px 28px rgba(228,191,0,.45);
+    }
+    .btn-outline {
+      background: rgba(255,255,255,.1);
+      color: #fff;
+      border: 1.5px solid rgba(255,255,255,.3);
+    }
+    .btn-outline:hover { background: rgba(255,255,255,.18); }
+    .btn svg { width: 18px; height: 18px; flex-shrink: 0; }
+
+    /* ─── HERO INTERNO ───────────────────────────────────── */
+    .page-hero {
+      background: var(--blue);
+      padding: 120px 5vw 80px;
+      position: relative;
+      overflow: hidden;
+      text-align: center;
+    }
+    .page-hero::before {
+      content: '';
+      position: absolute;
+      width: 640px; height: 640px;
+      right: -160px; top: -200px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(255,255,255,.1) 0%, transparent 65%);
+      pointer-events: none;
+    }
+    .page-hero::after {
+      content: '';
+      position: absolute;
+      width: 360px; height: 360px;
+      left: -60px; bottom: -140px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(26,61,92,.35) 0%, transparent 65%);
+      pointer-events: none;
+    }
+    .page-hero-grid {
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(255,255,255,.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,.04) 1px, transparent 1px);
+      background-size: 60px 60px;
+    }
+    .page-hero-content {
+      position: relative;
+      z-index: 1;
+      max-width: 620px;
+      margin: 0 auto;
+      opacity: 0;
+      transform: translateY(22px);
+      animation: fadeUp .8s .05s cubic-bezier(.4,0,.2,1) forwards;
+    }
+    @keyframes fadeUp {
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .breadcrumb {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: .8rem;
+      color: rgba(255,255,255,.6);
+      font-weight: 500;
+      margin-bottom: 22px;
+    }
+    .breadcrumb a { color: rgba(255,255,255,.6); transition: color var(--transition); }
+    .breadcrumb a:hover { color: #fff; }
+    .breadcrumb svg { width: 12px; height: 12px; color: rgba(255,255,255,.35); }
+    .page-hero h1 {
+      font-family: 'DM Serif Display', serif;
+      font-size: clamp(2rem, 5vw, 3.2rem);
+      color: #fff;
+      line-height: 1.1;
+      letter-spacing: -.02em;
+      margin-bottom: 16px;
+    }
+    .page-hero p {
+      font-size: 1.05rem;
+      color: rgba(255,255,255,.75);
+      line-height: 1.7;
+      font-weight: 300;
+      max-width: 500px;
+      margin: 0 auto 36px;
+    }
+
+    /* nav de especialidades anclas */
+    .spec-anchors {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 8px;
+      position: relative;
+      z-index: 1;
+      margin-top: 4px;
+    }
+    .spec-anchors a {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 7px 16px;
+      background: rgba(255,255,255,.12);
+      border: 1px solid rgba(255,255,255,.2);
+      border-radius: 50px;
+      color: rgba(255,255,255,.85);
+      font-size: .82rem;
+      font-weight: 500;
+      transition: background var(--transition), border-color var(--transition), color var(--transition);
+    }
+    .spec-anchors a:hover {
+      background: rgba(255,255,255,.22);
+      border-color: rgba(255,255,255,.4);
+      color: #fff;
+    }
+    .spec-anchors a svg { width: 14px; height: 14px; }
+
+    /* ─── SECTION BASE ───────────────────────────────────── */
+    .spec-section {
+      padding: 96px 5vw;
+    }
+    .spec-section:nth-child(odd) { background: #fff; }
+    .spec-section:nth-child(even) { background: var(--blue-light); }
+
+    .spec-section-label {
+      display: inline-block;
+      font-size: .72rem;
+      font-weight: 600;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: var(--blue);
+      margin-bottom: 10px;
+    }
+    .spec-section:nth-child(even) .spec-section-label { color: var(--blue-deep); }
+
+    /* layout dos columnas */
+    .spec-layout {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 64px;
+      align-items: start;
+      max-width: 1100px;
+    }
+    .spec-layout.reverse { direction: rtl; }
+    .spec-layout.reverse > * { direction: ltr; }
+
+    .spec-text h2 {
+      font-family: 'DM Serif Display', serif;
+      font-size: clamp(1.7rem, 3vw, 2.4rem);
+      color: var(--blue-deep);
+      line-height: 1.12;
+      letter-spacing: -.02em;
+      margin-bottom: 18px;
+    }
+    .spec-text > p {
+      font-size: .97rem;
+      color: var(--text-mid);
+      line-height: 1.75;
+      font-weight: 300;
+      margin-bottom: 28px;
+    }
+
+    /* lista de prestaciones */
+    .prestaciones {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-bottom: 32px;
+    }
+    .prestaciones li {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      font-size: .92rem;
+      color: var(--text-mid);
+      line-height: 1.55;
+    }
+    .prestaciones li .check {
+      width: 20px; height: 20px;
+      background: var(--blue-light);
+      border-radius: 6px;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+    .spec-section:nth-child(even) .prestaciones li .check {
+      background: rgba(65,128,171,.15);
+    }
+    .prestaciones li .check svg { width: 11px; height: 11px; color: var(--blue); }
+
+    /* info chips */
+    .spec-chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 28px;
+    }
+    .chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 5px 12px;
+      background: var(--blue-light);
+      border-radius: 50px;
+      font-size: .78rem;
+      font-weight: 500;
+      color: var(--blue-deep);
+    }
+    .spec-section:nth-child(even) .chip { background: rgba(255,255,255,.6); }
+    .chip svg { width: 13px; height: 13px; color: var(--blue); }
+
+    /* panel visual */
+    .spec-visual {
+      position: relative;
+    }
+    .spec-card-main {
+      background: linear-gradient(145deg, var(--blue-deep) 0%, var(--blue) 100%);
+      border-radius: var(--radius-lg);
+      padding: 40px 36px;
+      color: #fff;
+      position: relative;
+      overflow: hidden;
+    }
+    .spec-card-main::before {
+      content: '';
+      position: absolute;
+      width: 260px; height: 260px;
+      right: -60px; bottom: -60px;
+      border-radius: 50%;
+      background: rgba(255,255,255,.06);
+      pointer-events: none;
+    }
+    .spec-section:nth-child(even) .spec-card-main {
+      background: linear-gradient(145deg, var(--blue) 0%, var(--blue-mid) 100%);
+    }
+    .spec-card-main-icon {
+      width: 56px; height: 56px;
+      background: rgba(255,255,255,.15);
+      border-radius: 16px;
+      display: flex; align-items: center; justify-content: center;
+      margin-bottom: 24px;
+    }
+    .spec-card-main-icon svg { width: 28px; height: 28px; color: #fff; }
+    .spec-card-main h3 {
+      font-family: 'DM Serif Display', serif;
+      font-size: 1.5rem;
+      margin-bottom: 12px;
+      line-height: 1.15;
+    }
+    .spec-card-main p {
+      font-size: .9rem;
+      color: rgba(255,255,255,.78);
+      line-height: 1.65;
+      font-weight: 300;
+      margin-bottom: 28px;
+    }
+    .spec-stat-row {
+      display: flex;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+    .spec-stat {
+      flex: 1;
+      min-width: 90px;
+      background: rgba(255,255,255,.1);
+      border-radius: 10px;
+      padding: 14px 16px;
+    }
+    .spec-stat-num {
+      font-family: 'DM Serif Display', serif;
+      font-size: 1.6rem;
+      color: var(--gold);
+      line-height: 1;
+      margin-bottom: 4px;
+    }
+    .spec-stat-label {
+      font-size: .72rem;
+      color: rgba(255,255,255,.6);
+      font-weight: 500;
+      letter-spacing: .02em;
+    }
+
+    /* medico chip debajo del card */
+    .spec-doctor {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-top: 16px;
+      background: #fff;
+      border: 1.5px solid var(--blue-light);
+      border-radius: var(--radius);
+      padding: 14px 18px;
+    }
+    .spec-section:nth-child(even) .spec-doctor { background: rgba(255,255,255,.75); }
+    .doctor-avatar {
+      width: 44px; height: 44px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--blue) 0%, var(--blue-mid) 100%);
+      display: flex; align-items: center; justify-content: center;
+      font-family: 'DM Serif Display', serif;
+      font-size: .95rem;
+      color: #fff;
+      flex-shrink: 0;
+    }
+    .doctor-info { flex: 1; }
+    .doctor-name { font-size: .88rem; font-weight: 600; color: var(--text-dark); }
+    .doctor-role { font-size: .78rem; color: var(--text-mid); font-weight: 300; }
+    .doctor-badge {
+      font-size: .7rem;
+      font-weight: 600;
+      padding: 3px 9px;
+      background: var(--blue-light);
+      color: var(--blue-deep);
+      border-radius: 50px;
+    }
+
+    /* ─── SECTION COMMONS ────────────────────────────────── */
+    .section-label {
+      display: inline-block;
+      font-size: .75rem;
+      font-weight: 600;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: var(--blue);
+      margin-bottom: 12px;
+    }
+    .section-title {
+      font-family: 'DM Serif Display', serif;
+      font-size: clamp(1.7rem, 3.5vw, 2.6rem);
+      line-height: 1.15;
+      letter-spacing: -.02em;
+      color: var(--text-dark);
+      margin-bottom: 16px;
+    }
+    .section-sub {
+      font-size: 1rem;
+      color: var(--text-mid);
+      line-height: 1.7;
+      max-width: 520px;
+      margin-bottom: 52px;
+      font-weight: 300;
+    }
+
+    /* ─── CTA FINAL ──────────────────────────────────────── */
+    .cta-section {
+      background: var(--blue);
+      padding: 88px 5vw;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .cta-section::before {
+      content: '';
+      position: absolute;
+      width: 700px; height: 700px;
+      right: -200px; top: -200px;
+      background: radial-gradient(circle, rgba(255,255,255,.06) 0%, transparent 65%);
+      pointer-events: none;
+    }
+    .cta-section .section-label { color: var(--gold); }
+    .cta-section .section-title { color: #fff; margin-bottom: 14px; }
+    .cta-section p {
+      color: rgba(255,255,255,.75);
+      font-size: 1rem;
+      line-height: 1.7;
+      max-width: 480px;
+      margin: 0 auto 38px;
+      font-weight: 300;
+    }
+    .cta-actions { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
+
+    /* ─── FOOTER ─────────────────────────────────────────── */
+    footer {
+      background: var(--blue-deep);
+      color: rgba(255,255,255,.7);
+      padding: 60px 5vw 36px;
+    }
+    .footer-grid {
+      display: grid;
+      grid-template-columns: 1.8fr 1fr 1fr;
+      gap: 48px;
+      margin-bottom: 48px;
+    }
+    .footer-brand .logo-wordmark { font-size: 1.3rem; margin-bottom: 14px; }
+    .footer-brand p { font-size: .87rem; line-height: 1.65; font-weight: 300; max-width: 260px; }
+    .footer-col h4 {
+      font-size: .8rem;
+      font-weight: 600;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,.4);
+      margin-bottom: 16px;
+    }
+    .footer-col ul { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+    .footer-col ul li { display: flex; gap: 8px; align-items: flex-start; font-size: .88rem; }
+    .footer-col ul li svg { width: 15px; height: 15px; color: var(--blue-mid); flex-shrink: 0; margin-top: 2px; }
+    .footer-col a { transition: color var(--transition); }
+    .footer-col a:hover { color: #fff; }
+    .footer-bottom {
+      border-top: 1px solid rgba(255,255,255,.08);
+      padding-top: 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: .8rem;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+    .footer-bottom span { color: rgba(255,255,255,.35); }
+
+    /* ─── RESPONSIVE ─────────────────────────────────────── */
+    @media (max-width: 900px) {
+      .spec-layout { grid-template-columns: 1fr; gap: 40px; }
+      .spec-layout.reverse { direction: ltr; }
+    }
+    @media (max-width: 768px) {
+      nav { display: none; }
+      nav.open {
+        display: flex;
+        flex-direction: column;
+        position: fixed;
+        top: 68px; left: 0; right: 0;
+        background: rgba(26,61,92,.97);
+        backdrop-filter: blur(14px);
+        padding: 16px 5vw 24px;
+        gap: 4px;
+        border-bottom: 1px solid rgba(255,255,255,.1);
+      }
+      nav.open a { padding: 11px 16px; font-size: 1rem; }
+      .menu-toggle { display: flex; }
+      .footer-grid { grid-template-columns: 1fr; gap: 32px; }
+      .spec-section { padding: 64px 5vw; }
+    }
+    @media (max-width: 480px) {
+      .btn { padding: 12px 20px; font-size: .88rem; }
+      .spec-stat-row { gap: 12px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ─ HEADER ──────────────────────────────────────────── -->
+  <header>
+    <a href="index.html" class="logo">
+      <div class="logo-icon">
+        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M12 4v4m0 8v4M4 12h4m8 0h4M8 8l-1-1M17 8l1-1M8 16l-1 1M17 16l1 1" stroke="#1a3d5c" stroke-width="2" stroke-linecap="round"/>
+          <circle cx="12" cy="12" r="3" fill="#1a3d5c"/>
+        </svg>
+      </div>
+      <span class="logo-wordmark">Vital<span>med</span></span>
+    </a>
+    <nav id="main-nav">
+      <a href="index.html">Inicio</a>
+      <a href="especialidades.html" class="active">Especialidades</a>
+      <a href="index.html#equipo">Equipo</a>
+      <a href="index.html#contacto">Contacto</a>
+    </nav>
+    <button class="menu-toggle" id="menu-btn" aria-label="Abrir menú">
+      <span></span><span></span><span></span>
+    </button>
+  </header>
+
+  <!-- ─ HERO INTERNO ───────────────────────────────────── -->
+  <div class="page-hero">
+    <div class="page-hero-grid" aria-hidden="true"></div>
+    <div class="page-hero-content">
+      <div class="breadcrumb">
+        <a href="index.html">Inicio</a>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M9 18l6-6-6-6"/>
+        </svg>
+        <span>Especialidades</span>
+      </div>
+      <h1>Nuestras Especialidades</h1>
+      <p>
+        Profesionales de alta formación, tecnología actualizada y una atención que pone al paciente en el centro. Conocé todo lo que podemos hacer por tu salud.
+      </p>
+      <div class="spec-anchors">
+        <a href="#clinica">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+          Clínica Médica
+        </a>
+        <a href="#pediatria">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="7" r="4"/><path d="M8 14s-4 1-4 5h16c0-4-4-5-4-5"/></svg>
+          Pediatría
+        </a>
+        <a href="#cardiologia">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+          Cardiología
+        </a>
+        <a href="#kinesiologia">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="5" r="2"/><path d="M12 7v5l3 3M9 12l-3 6M15 12l3 6"/></svg>
+          Kinesiología
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════ -->
+  <!-- ─ CLÍNICA MÉDICA ─────────────────────────────────── -->
+  <!-- ═══════════════════════════════════════════════════ -->
+  <section class="spec-section" id="clinica">
+    <div class="spec-layout">
+      <div class="spec-text">
+        <span class="spec-section-label">Especialidad 01</span>
+        <h2>Clínica Médica</h2>
+        <p>
+          La clínica médica es la base de la atención integral. Nuestro equipo realiza el seguimiento de tu salud a lo largo del tiempo, detectando precozmente enfermedades crónicas y orientándote hacia las derivaciones más adecuadas cuando se necesiten.
+        </p>
+        <p>
+          Trabajamos con un enfoque preventivo: chequeos periódicos, análisis de laboratorio, evaluación del riesgo cardiovascular y metabólico, y planes de salud personalizados según tu edad y estilo de vida.
+        </p>
+
+        <div class="spec-chips">
+          <span class="chip">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+            Turnos en 48 hs
+          </span>
+          <span class="chip">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+            Todas las obras sociales
+          </span>
+          <span class="chip">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+            Teleconsulta disponible
+          </span>
+        </div>
+
+        <ul class="prestaciones">
+          <li>
+            <span class="check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>
+            Control médico anual y chequeos preventivos completos
+          </li>
+          <li>
+            <span class="check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>
+            Manejo y seguimiento de hipertensión, diabetes y obesidad
+          </li>
+          <li>
+            <span class="check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>
+            Solicitud e interpretación de laboratorio e imágenes
+          </li>
+          <li>
+            <span class="check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>
+            Derivación y coordinación con otras especialidades
+          </li>
+          <li>
+            <span class="check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>
+            Certificados médicos y apto físico laboral
+          </li>
+          <li>
+            <span class="check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>
+            Atención de urgencias de baja complejidad
+          </li>
+        </ul>
+        <a href="index.html#contacto" class="btn btn-gold">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
+          Sacar turno
+        </a>
+      </div>
+      <div class="spec-visual">
+        <div class="spec-card-main">
+          <div class="spec-card-main-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M22 12h-4l-3 9L9 3l-3 9H2"/>
+            </svg>
+          </div>
+          <h3>Clínica Médica</h3>
+          <p>Tu médico de cabecera, con el respaldo de un equipo multidisciplinario y tecnología de última generación.</p>
+          <div class="spec-stat-row">
+            <div class="spec-stat">
+              <div class="spec-stat-num">+15</div>
+              <div class="spec-stat-label">Años de experiencia</div>
+            </div>
+            <div class="spec-stat">
+              <div class="spec-stat-num">3.200</div>
+              <div class="spec-stat-label">Pacientes activos</div>
+            </div>
+            <div class="spec-stat">
+              <div class="spec-stat-num">98%</div>
+              <div class="spec-stat-label">Satisfacción</div>
+            </div>
+          </div>
+        </div>
+        <div class="spec-doctor">
+          <div class="doctor-avatar">AR</div>
+          <div class="doctor-info">
+            <div class="doctor-name">Dr. Alejandro Ríos</div>
+            <div class="doctor-role">Especialista en Clínica Médica · MN 82.340</div>
+          </div>
+          <span class="doctor-badge">Jefe de área</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════ -->
+  <!-- ─ PEDIATRÍA ──────────────────────────────────────── -->
+  <!-- ═══════════════════════════════════════════════════ -->
+  <section class="spec-section" id="pediatria">
+    <div class="spec-layout reverse">
+      <div class="spec-text">
+        <span class="spec-section-label">Especialidad 02</span>
+        <h2>Pediatría</h2>
+        <p>
+          El cuidado de los más chicos merece una atención especial. Nuestros pediatras acompañan el crecimiento y desarrollo de tu hijo desde el nacimiento hasta la adolescencia, con un enfoque cálido y contenedor que tranquiliza a toda la familia.
+        </p>
+        <p>
+          Desde los controles de puericultura hasta la atención de enfermedades agudas, pasando por el seguimiento de condiciones crónicas como el asma o los trastornos alimentarios, contamos con los recursos y el entrenamiento para dar respuesta integral.
+        </p>
+
+        <div class="spec-chips">
+          <span class="chip">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+            Urgencias pediátricas
+          </span>
+          <span class="chip">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+            Carnets de vacunación
+          </span>
+          <span class="chip">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+            Atención a padres
+          </span>
+        </div>
+
+        <ul class="prestaciones">
+          <li>
+            <span class="check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>
+            Controles de salud del recién nacido y puericultura
+          </li>
+          <li>
+            <span class="check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>
+            Aplicación de vacunas del calendario oficial y opcional
+          </li>
+          <li>
+            <span class="check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>
+            Evaluación del desarrollo psicomotor y del lenguaje
+          </li>
+          <li>
+            <span class="check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>
+            Atención de enfermedades respiratorias, digestivas y febriles
+          </li>
+          <li>
+            <span class="check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>
+            Seguimiento de niños con patologías crónicas (asma, alergias)
+          </li>
+          <li>
+            <span class="check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>
+            Consejería en alimentación y lactancia materna
+          </li>
+        </ul>
+        <a href="index.html#contacto" class="btn btn-gold">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
+          Sacar turno
+        </a>
+      </div>
+      <div class="spec-visual">
+        <div class="spec-card-main">
+          <div class="spec-card-main-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="7" r="4"/><path d="M8 14s-4 1-4 5h16c0-4-4-5-4-5"/>
+            </svg>
+          </div>
+          <h3>Pediatría</h3>
+          <p>Acompañamos cada etapa del crecimiento con la dedicación y la calidez que los más chicos merecen.</p>
+          <div class="spec-stat-row">
+            <div class="spec-stat">
+              <div class="spec-stat-num">0–18</div>
+              <div class="spec-stat-label">Años atendidos</div>
+            </div>
+            <div class="spec-stat">
+              <div class="spec-stat-num">1.800</div>
+              <div class="spec-stat-label">Pacientes pediátricos</div>
+            </div>
+            <div class="spec-stat">
+              <div class="spec-stat-num">5</div>
+              <div class="spec-stat-label">Pediatras en equipo</div>
+            </div>
+          </div>
+        </div>
+        <div class="spec-doctor">
+          <div class="doctor-avatar">SL</div>
+          <div class="doctor-info">
+            <div class="doctor-name">Dra. Sofía Lara</div>
+            <div class="doctor-role">Pediatra · MN 67.891</div>
+          </div>
+          <span class="doctor-badge">Jefa de área</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════ -->
+  <!-- ─ CARDIOLOGÍA ────────────────────────────────────── -->
+  <!-- ═══════════════════════════════════════════════════ -->
+  <section class="spec-section" id="cardiologia">
+    <div class="spec-layout">
+      <div class="spec-text">
+        <span class="spec-section-label">Especialidad 03</span>
+        <h2>Cardiología</h2>
+        <p>
+          El corazón es el motor de tu vida. Nuestros cardiólogos están capacitados para la prevención, diagnóstico y seguimiento de enfermedades cardiovasculares, combinando la experiencia clínica con los estudios complementarios más modernos disponibles en la actualidad.
+        </p>
+        <p>
+          Ya sea una consulta de control, una evaluación de riesgo antes de comenzar a hacer actividad física, o el seguimiento de una cardiopatía conocida, te ofrecemos una atención completa y personalizada con turnos en tiempo oportuno.
+        </p>
+
+        <div class="spec-chips">
+          <span class="chip">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+            ECG en el acto
+          </span>
+          <span class="chip">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+            Holter 24 hs
+          </span>
+          <span class="chip">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 3h18v18H3z"/><path d="M9 9h6M9 12h6M9 15h4"/></svg>
+            Ecocardiograma
+          </span>
+        </div>
+
+        <ul class="prestaciones">
+          <li>
+            <span class="check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>
+            Electrocardiograma (ECG) de reposo e interpretación inmediata
+          </li>
+          <li>
+            <span class="check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>
+            Ecocardiograma transtorácico Doppler color
+          </li>
+          <li>
+            <span class="check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>
+            Monitoreo Holter de arritmias y presión arterial ambulatoria
+          </li>
+          <li>
+            <span class="check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>
+            Evaluación de riesgo cardiovascular y apto físico deportivo
+          </li>
+          <li>
+            <span class="check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>
+            Seguimiento de hipertensión arterial e insuficiencia cardíaca
+          </li>
+          <li>
+            <span class="check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>
+            Control post infarto y coordinación con cirugía cardiovascular
+          </li>
+        </ul>
+        <a href="index.html#contacto" class="btn btn-gold">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
+          Sacar turno
+        </a>
+      </div>
+      <div class="spec-visual">
+        <div class="spec-card-main">
+          <div class="spec-card-main-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+            </svg>
+          </div>
+          <h3>Cardiología</h3>
+          <p>Cuidamos tu corazón con la mejor tecnología diagnóstica y un equipo de especialistas de primer nivel.</p>
+          <div class="spec-stat-row">
+            <div class="spec-stat">
+              <div class="spec-stat-num">+20</div>
+              <div class="spec-stat-label">Años de especialidad</div>
+            </div>
+            <div class="spec-stat">
+              <div class="spec-stat-num">600</div>
+              <div class="spec-stat-label">ECG mensuales</div>
+            </div>
+            <div class="spec-stat">
+              <div class="spec-stat-num">3</div>
+              <div class="spec-stat-label">Cardiólogos</div>
+            </div>
+          </div>
+        </div>
+        <div class="spec-doctor">
+          <div class="doctor-avatar">MC</div>
+          <div class="doctor-info">
+            <div class="doctor-name">Dr. Marcos Crespo</div>
+            <div class="doctor-role">Cardiólogo · MN 54.210</div>
+          </div>
+          <span class="doctor-badge">Jefe de área</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════ -->
+  <!-- ─ KINESIOLOGÍA ───────────────────────────────────── -->
+  <!-- ═══════════════════════════════════════════════════ -->
+  <section class="spec-section" id="kinesiologia">
+    <div class="spec-layout reverse">
+      <div class="spec-text">
+        <span class="spec-section-label">Especialidad 04</span>
+        <h2>Kinesiología</h2>
+        <p>
+          La recuperación del movimiento y la eliminación del dolor son el corazón de nuestra área de kinesiología. Con un enfoque basado en la evidencia científica, diseñamos programas de rehabilitación individualizados que te permiten recuperar tu funcionalidad de la manera más rápida y segura posible.
+        </p>
+        <p>
+          Atendemos lesiones deportivas, recuperaciones post-quirúrgicas, patologías del raquis y trastornos neuromusculares, con técnicas manuales avanzadas y equipamiento de electroterapia, ultrasonido y termoterapia.
+        </p>
+
+        <div class="spec-chips">
+          <span class="chip">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="5" r="2"/><path d="M12 7v5l3 3M9 12l-3 6M15 12l3 6"/></svg>
+            Kinesiotaping
+          </span>
+          <span class="chip">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4.93 4.93l14.14 14.14M4.93 19.07L19.07 4.93"/><circle cx="12" cy="12" r="9"/></svg>
+            Electroterapia
+          </span>
+          <span class="chip">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+            Post-quirúrgico
+          </span>
+        </div>
+
+        <ul class="prestaciones">
+          <li>
+            <span class="check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>
+            Rehabilitación post-quirúrgica de rodilla, hombro y cadera
+          </li>
+          <li>
+            <span class="check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>
+            Tratamiento del dolor lumbar, cervical y de hombro
+          </li>
+          <li>
+            <span class="check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>
+            Fisioterapia con ultrasonido, TENS y láser de baja potencia
+          </li>
+          <li>
+            <span class="check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>
+            Kinesiotaping y vendajes funcionales para lesiones deportivas
+          </li>
+          <li>
+            <span class="check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>
+            Ejercicio terapéutico y entrenamiento de la fuerza funcional
+          </li>
+          <li>
+            <span class="check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>
+            Rehabilitación neurológica (ACV, Parkinson, esclerosis)
+          </li>
+        </ul>
+        <a href="index.html#contacto" class="btn btn-gold">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
+          Sacar turno
+        </a>
+      </div>
+      <div class="spec-visual">
+        <div class="spec-card-main">
+          <div class="spec-card-main-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="5" r="2"/>
+              <path d="M12 7v5l3 3M9 12l-3 6M15 12l3 6M7 16h10"/>
+            </svg>
+          </div>
+          <h3>Kinesiología</h3>
+          <p>Recuperá tu movimiento y calidad de vida con un equipo comprometido con tu bienestar funcional.</p>
+          <div class="spec-stat-row">
+            <div class="spec-stat">
+              <div class="spec-stat-num">+500</div>
+              <div class="spec-stat-label">Pacientes/año</div>
+            </div>
+            <div class="spec-stat">
+              <div class="spec-stat-num">8</div>
+              <div class="spec-stat-label">Kinesiólogos</div>
+            </div>
+            <div class="spec-stat">
+              <div class="spec-stat-num">95%</div>
+              <div class="spec-stat-label">Alta exitosa</div>
+            </div>
+          </div>
+        </div>
+        <div class="spec-doctor">
+          <div class="doctor-avatar">VP</div>
+          <div class="doctor-info">
+            <div class="doctor-name">Lic. Valentina Pérez</div>
+            <div class="doctor-role">Kinesióloga · MP 23.456</div>
+          </div>
+          <span class="doctor-badge">Jefa de área</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─ CTA FINAL ──────────────────────────────────────── -->
+  <section class="cta-section">
+    <span class="section-label">¿Listo para empezar?</span>
+    <h2 class="section-title">Tu primera consulta está<br>a un clic de distancia</h2>
+    <p>Reservá tu turno online en segundos o comunicate directamente con nuestro equipo. Estamos para ayudarte cuando más lo necesitás.</p>
+    <div class="cta-actions">
+      <a href="tel:+5401100000000" class="btn btn-gold">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 13a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.6 2.18h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 9.91a16 16 0 0 0 6.12 6.12l.91-.91a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/>
+        </svg>
+        Contactanos
+      </a>
+      <a href="mailto:info@vitalmed.com.ar" class="btn btn-outline">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/>
+        </svg>
+        Enviar mail
+      </a>
+    </div>
+  </section>
+
+  <!-- ─ FOOTER ─────────────────────────────────────────── -->
+  <footer>
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <div class="logo" style="margin-bottom:14px;">
+          <div class="logo-icon">
+            <svg viewBox="0 0 24 24" fill="none">
+              <path d="M12 4v4m0 8v4M4 12h4m8 0h4" stroke="#1a3d5c" stroke-width="2" stroke-linecap="round"/>
+              <circle cx="12" cy="12" r="3" fill="#1a3d5c"/>
+            </svg>
+          </div>
+          <span class="logo-wordmark">Vital<span>med</span></span>
+        </div>
+        <p>Centro médico integral comprometido con la salud y el bienestar de tu familia, con más de 15 años de trayectoria.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Contacto</h4>
+        <ul>
+          <li>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round">
+              <path d="M21 10c0 7-9 13-9 13S3 17 3 10a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/>
+            </svg>
+            Av. San Martín 1245, piso 2, Buenos Aires
+          </li>
+          <li>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round">
+              <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 13a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.6 2.18h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 9.91a16 16 0 0 0 6.12 6.12l.91-.91a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/>
+            </svg>
+            <a href="tel:+5401100000000">(011) 0000-0000</a>
+          </li>
+          <li>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round">
+              <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/>
+            </svg>
+            <a href="mailto:info@vitalmed.com.ar">info@vitalmed.com.ar</a>
+          </li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Horarios</h4>
+        <ul>
+          <li>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round">
+              <circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>
+            </svg>
+            Lun–Vie: 8:00 a 20:00
+          </li>
+          <li>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round">
+              <circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>
+            </svg>
+            Sáb: 8:00 a 14:00
+          </li>
+          <li>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round">
+              <circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>
+            </svg>
+            Guardias: 24 hs
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2025 Vitalmed. Todos los derechos reservados.</span>
+      <span>Diseñado con cuidado para vos</span>
+    </div>
+  </footer>
+
+  <script>
+    // Hamburger toggle
+    const btn = document.getElementById('menu-btn');
+    const nav = document.getElementById('main-nav');
+    btn.addEventListener('click', () => nav.classList.toggle('open'));
+    nav.querySelectorAll('a').forEach(a => a.addEventListener('click', () => nav.classList.remove('open')));
+  </script>
+</body>
+</html>

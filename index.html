@@ -1,0 +1,829 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Vitalmed – Tu salud, nuestra prioridad</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300&display=swap" rel="stylesheet" />
+  <style>
+    /* ─── TOKENS ─────────────────────────────────────────── */
+    :root {
+      --blue:       #4180AB;
+      --blue-deep:  #1a3d5c;
+      --blue-mid:   #84B3CF;
+      --blue-light: #BDD1DE;
+      --gold:       #E4BF00;
+      --gold-hover: #c9aa00;
+      --text-dark:  #1e2b35;
+      --text-mid:   #3d5468;
+      --text-light: #ffffff;
+      --radius:     12px;
+      --radius-lg:  20px;
+      --shadow-sm:  0 2px 12px rgba(65,128,171,.12);
+      --shadow-md:  0 6px 32px rgba(65,128,171,.18);
+      --transition: .28s cubic-bezier(.4,0,.2,1);
+    }
+
+    /* ─── RESET ──────────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 16px;
+      color: var(--text-dark);
+      background: #fff;
+      overflow-x: hidden;
+    }
+    img { display: block; max-width: 100%; }
+    a { text-decoration: none; color: inherit; }
+
+    /* ─── HEADER ─────────────────────────────────────────── */
+    header {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      background: rgba(26, 61, 92, .92);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border-bottom: 1px solid rgba(255,255,255,.08);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 5vw;
+      height: 68px;
+    }
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: var(--text-light);
+    }
+    .logo-icon {
+      width: 36px; height: 36px;
+      background: var(--gold);
+      border-radius: 8px;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+    }
+    .logo-icon svg { width: 20px; height: 20px; }
+    .logo-wordmark {
+      font-family: 'DM Serif Display', serif;
+      font-size: 1.45rem;
+      letter-spacing: -.01em;
+      line-height: 1;
+    }
+    .logo-wordmark span { color: var(--gold); }
+
+    nav { display: flex; align-items: center; gap: 6px; }
+    nav a {
+      color: rgba(255,255,255,.78);
+      font-size: .9rem;
+      font-weight: 500;
+      padding: 7px 14px;
+      border-radius: 8px;
+      transition: color var(--transition), background var(--transition);
+      white-space: nowrap;
+    }
+    nav a:hover {
+      color: #fff;
+      background: rgba(255,255,255,.1);
+    }
+
+    /* hamburger */
+    .menu-toggle {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      cursor: pointer;
+      padding: 6px;
+      border: none;
+      background: none;
+    }
+    .menu-toggle span {
+      display: block;
+      width: 22px; height: 2px;
+      background: #fff;
+      border-radius: 2px;
+      transition: var(--transition);
+    }
+
+    /* ─── HERO ───────────────────────────────────────────── */
+    .hero {
+      min-height: 100dvh;
+      background: linear-gradient(140deg, var(--blue) 0%, var(--blue-deep) 60%);
+      display: flex;
+      align-items: center;
+      position: relative;
+      overflow: hidden;
+      padding: 0 5vw;
+    }
+    /* decorative circles */
+    .hero::before,
+    .hero::after {
+      content: '';
+      position: absolute;
+      border-radius: 50%;
+      pointer-events: none;
+    }
+    .hero::before {
+      width: 560px; height: 560px;
+      right: -80px; top: -60px;
+      background: radial-gradient(circle, rgba(132,179,207,.22) 0%, transparent 70%);
+    }
+    .hero::after {
+      width: 400px; height: 400px;
+      left: 5vw; bottom: -120px;
+      background: radial-gradient(circle, rgba(228,191,0,.08) 0%, transparent 70%);
+    }
+    /* grid lines */
+    .hero-grid {
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(255,255,255,.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,.04) 1px, transparent 1px);
+      background-size: 60px 60px;
+    }
+    .hero-content {
+      position: relative;
+      z-index: 1;
+      max-width: 640px;
+      opacity: 0;
+      transform: translateY(28px);
+      animation: heroFadeIn .9s .1s var(--transition) forwards;
+    }
+    @keyframes heroFadeIn {
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      background: rgba(255,255,255,.1);
+      border: 1px solid rgba(255,255,255,.18);
+      border-radius: 50px;
+      padding: 5px 14px 5px 8px;
+      font-size: .78rem;
+      color: rgba(255,255,255,.85);
+      font-weight: 500;
+      letter-spacing: .03em;
+      text-transform: uppercase;
+      margin-bottom: 28px;
+    }
+    .hero-badge-dot {
+      width: 8px; height: 8px;
+      background: var(--gold);
+      border-radius: 50%;
+      animation: pulse 2.2s ease-in-out infinite;
+    }
+    @keyframes pulse {
+      0%,100% { box-shadow: 0 0 0 0 rgba(228,191,0,.5); }
+      50%      { box-shadow: 0 0 0 6px rgba(228,191,0,0); }
+    }
+    .hero h1 {
+      font-family: 'DM Serif Display', serif;
+      font-size: clamp(2.4rem, 5.5vw, 4rem);
+      color: #fff;
+      line-height: 1.1;
+      letter-spacing: -.02em;
+      margin-bottom: 20px;
+    }
+    .hero h1 em {
+      font-style: italic;
+      color: var(--blue-light);
+    }
+    .hero-sub {
+      font-size: 1.05rem;
+      color: rgba(255,255,255,.72);
+      line-height: 1.7;
+      max-width: 480px;
+      margin-bottom: 40px;
+      font-weight: 300;
+    }
+    .hero-actions { display: flex; gap: 14px; flex-wrap: wrap; }
+
+    /* ─── BUTTONS ────────────────────────────────────────── */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 14px 28px;
+      border-radius: var(--radius);
+      font-weight: 600;
+      font-size: .95rem;
+      font-family: 'DM Sans', sans-serif;
+      cursor: pointer;
+      border: none;
+      transition: transform var(--transition), box-shadow var(--transition), background var(--transition);
+      white-space: nowrap;
+    }
+    .btn:hover { transform: translateY(-2px); }
+    .btn-gold {
+      background: var(--gold);
+      color: var(--blue-deep);
+      box-shadow: 0 4px 20px rgba(228,191,0,.35);
+    }
+    .btn-gold:hover {
+      background: var(--gold-hover);
+      box-shadow: 0 8px 28px rgba(228,191,0,.45);
+    }
+    .btn-outline {
+      background: rgba(255,255,255,.1);
+      color: #fff;
+      border: 1.5px solid rgba(255,255,255,.3);
+    }
+    .btn-outline:hover { background: rgba(255,255,255,.18); }
+    .btn svg { width: 18px; height: 18px; flex-shrink: 0; }
+
+    /* ─── SECTION COMMONS ────────────────────────────────── */
+    section { padding: 88px 5vw; }
+    .section-label {
+      display: inline-block;
+      font-size: .75rem;
+      font-weight: 600;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: var(--blue);
+      margin-bottom: 12px;
+    }
+    .section-title {
+      font-family: 'DM Serif Display', serif;
+      font-size: clamp(1.7rem, 3.5vw, 2.6rem);
+      line-height: 1.15;
+      letter-spacing: -.02em;
+      color: var(--text-dark);
+      margin-bottom: 16px;
+    }
+    .section-sub {
+      font-size: 1rem;
+      color: var(--text-mid);
+      line-height: 1.7;
+      max-width: 520px;
+      margin-bottom: 52px;
+      font-weight: 300;
+    }
+
+    /* ─── WHY US ─────────────────────────────────────────── */
+    .why-us { background: #fff; }
+    .why-header { max-width: 560px; }
+    .why-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 24px;
+    }
+    .why-card {
+      background: #fff;
+      border: 1.5px solid var(--blue-light);
+      border-radius: var(--radius-lg);
+      padding: 36px 32px;
+      transition: transform var(--transition), box-shadow var(--transition), border-color var(--transition);
+      position: relative;
+      overflow: hidden;
+    }
+    .why-card::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--blue), var(--blue-mid));
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform var(--transition);
+    }
+    .why-card:hover {
+      transform: translateY(-6px);
+      box-shadow: var(--shadow-md);
+      border-color: var(--blue-mid);
+    }
+    .why-card:hover::after { transform: scaleX(1); }
+    .why-icon {
+      width: 52px; height: 52px;
+      background: var(--blue-light);
+      border-radius: 14px;
+      display: flex; align-items: center; justify-content: center;
+      margin-bottom: 22px;
+    }
+    .why-icon svg { width: 26px; height: 26px; color: var(--blue); }
+    .why-card h3 {
+      font-family: 'DM Serif Display', serif;
+      font-size: 1.2rem;
+      color: var(--blue-deep);
+      margin-bottom: 10px;
+    }
+    .why-card p { font-size: .93rem; color: var(--text-mid); line-height: 1.65; font-weight: 300; }
+
+    /* ─── SPECIALTIES ────────────────────────────────────── */
+    .specialties { background: var(--blue-light); }
+    .spec-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 20px;
+    }
+    .spec-card {
+      background: #fff;
+      border-radius: var(--radius-lg);
+      padding: 32px 26px 28px;
+      text-align: center;
+      transition: transform var(--transition), box-shadow var(--transition);
+      cursor: default;
+    }
+    .spec-card:hover {
+      transform: translateY(-6px);
+      box-shadow: var(--shadow-md);
+    }
+    .spec-icon {
+      width: 60px; height: 60px;
+      background: linear-gradient(135deg, var(--blue) 0%, var(--blue-mid) 100%);
+      border-radius: 16px;
+      display: flex; align-items: center; justify-content: center;
+      margin: 0 auto 20px;
+    }
+    .spec-icon svg { width: 28px; height: 28px; color: #fff; }
+    .spec-card h3 {
+      font-family: 'DM Serif Display', serif;
+      font-size: 1.1rem;
+      color: var(--blue-deep);
+      margin-bottom: 8px;
+    }
+    .spec-card p { font-size: .86rem; color: var(--text-mid); line-height: 1.6; font-weight: 300; }
+    .spec-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      margin-top: 14px;
+      font-size: .83rem;
+      font-weight: 600;
+      color: var(--blue);
+      transition: gap var(--transition);
+    }
+    .spec-link:hover { gap: 8px; }
+    .spec-link svg { width: 14px; height: 14px; }
+
+    /* ─── TESTIMONIALS ───────────────────────────────────── */
+    .testimonials { background: var(--blue-mid); }
+    .testimonials .section-title,
+    .testimonials .section-label { color: #fff; }
+    .testimonials .section-sub { color: rgba(255,255,255,.75); }
+    .testi-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 22px;
+    }
+    .testi-card {
+      background: rgba(255,255,255,.14);
+      border: 1px solid rgba(255,255,255,.2);
+      border-radius: var(--radius-lg);
+      padding: 32px 28px;
+      transition: transform var(--transition), background var(--transition);
+    }
+    .testi-card:hover {
+      transform: translateY(-4px);
+      background: rgba(255,255,255,.2);
+    }
+    .stars { display: flex; gap: 3px; margin-bottom: 18px; }
+    .stars svg { width: 16px; height: 16px; color: var(--gold); }
+    .testi-text {
+      font-size: .95rem;
+      color: rgba(255,255,255,.88);
+      line-height: 1.7;
+      font-weight: 300;
+      font-style: italic;
+      margin-bottom: 22px;
+    }
+    .testi-author { display: flex; align-items: center; gap: 12px; }
+    .testi-avatar {
+      width: 42px; height: 42px;
+      border-radius: 50%;
+      background: rgba(255,255,255,.15);
+      display: flex; align-items: center; justify-content: center;
+      font-family: 'DM Serif Display', serif;
+      font-size: 1rem;
+      color: #fff;
+      flex-shrink: 0;
+      border: 2px solid rgba(255,255,255,.25);
+    }
+    .testi-name { font-weight: 600; font-size: .9rem; color: #fff; }
+    .testi-role { font-size: .8rem; color: rgba(255,255,255,.6); }
+
+    /* ─── CTA ────────────────────────────────────────────── */
+    .cta-section {
+      background: var(--blue);
+      padding: 88px 5vw;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .cta-section::before {
+      content: '';
+      position: absolute;
+      width: 700px; height: 700px;
+      right: -200px; top: -200px;
+      background: radial-gradient(circle, rgba(255,255,255,.06) 0%, transparent 65%);
+      pointer-events: none;
+    }
+    .cta-section .section-label { color: var(--gold); }
+    .cta-section .section-title { color: #fff; margin-bottom: 14px; }
+    .cta-section p {
+      color: rgba(255,255,255,.75);
+      font-size: 1rem;
+      line-height: 1.7;
+      max-width: 480px;
+      margin: 0 auto 38px;
+      font-weight: 300;
+    }
+    .cta-actions { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
+
+    /* ─── FOOTER ─────────────────────────────────────────── */
+    footer {
+      background: var(--blue-deep);
+      color: rgba(255,255,255,.7);
+      padding: 60px 5vw 36px;
+    }
+    .footer-grid {
+      display: grid;
+      grid-template-columns: 1.8fr 1fr 1fr;
+      gap: 48px;
+      margin-bottom: 48px;
+    }
+    .footer-brand .logo-wordmark { font-size: 1.3rem; margin-bottom: 14px; }
+    .footer-brand p { font-size: .87rem; line-height: 1.65; font-weight: 300; max-width: 260px; }
+    .footer-col h4 {
+      font-size: .8rem;
+      font-weight: 600;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,.4);
+      margin-bottom: 16px;
+    }
+    .footer-col ul { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+    .footer-col ul li { display: flex; gap: 8px; align-items: flex-start; font-size: .88rem; }
+    .footer-col ul li svg { width: 15px; height: 15px; color: var(--blue-mid); flex-shrink: 0; margin-top: 2px; }
+    .footer-col a { transition: color var(--transition); }
+    .footer-col a:hover { color: #fff; }
+    .footer-bottom {
+      border-top: 1px solid rgba(255,255,255,.08);
+      padding-top: 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: .8rem;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+    .footer-bottom span { color: rgba(255,255,255,.35); }
+
+    /* ─── RESPONSIVE ─────────────────────────────────────── */
+    @media (max-width: 768px) {
+      nav { display: none; }
+      nav.open {
+        display: flex;
+        flex-direction: column;
+        position: fixed;
+        top: 68px; left: 0; right: 0;
+        background: rgba(26,61,92,.97);
+        backdrop-filter: blur(14px);
+        padding: 16px 5vw 24px;
+        gap: 4px;
+        border-bottom: 1px solid rgba(255,255,255,.1);
+      }
+      nav.open a { padding: 11px 16px; font-size: 1rem; }
+      .menu-toggle { display: flex; }
+
+      .footer-grid { grid-template-columns: 1fr; gap: 32px; }
+      .hero h1 { font-size: 2.2rem; }
+    }
+
+    @media (max-width: 480px) {
+      section { padding: 64px 5vw; }
+      .btn { padding: 12px 20px; font-size: .88rem; }
+      .why-card, .spec-card, .testi-card { padding: 26px 20px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ─ HEADER ──────────────────────────────────────────── -->
+  <header>
+    <a href="#inicio" class="logo">
+      <div class="logo-icon">
+        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M12 4v4m0 8v4M4 12h4m8 0h4M8 8l-1-1M17 8l1-1M8 16l-1 1M17 16l1 1" stroke="#1a3d5c" stroke-width="2" stroke-linecap="round"/>
+          <circle cx="12" cy="12" r="3" fill="#1a3d5c"/>
+        </svg>
+      </div>
+      <span class="logo-wordmark">Vital<span>med</span></span>
+    </a>
+    <nav id="main-nav">
+      <a href="#inicio">Inicio</a>
+      <a href="#especialidades">Especialidades</a>
+      <a href="#equipo">Equipo</a>
+      <a href="#contacto">Contacto</a>
+    </nav>
+    <button class="menu-toggle" id="menu-btn" aria-label="Abrir menú">
+      <span></span><span></span><span></span>
+    </button>
+  </header>
+
+  <!-- ─ HERO ───────────────────────────────────────────── -->
+  <section class="hero" id="inicio">
+    <div class="hero-grid" aria-hidden="true"></div>
+    <div class="hero-content">
+      <div class="hero-badge">
+        <span class="hero-badge-dot"></span>
+        Atención médica de excelencia
+      </div>
+      <h1>Tu salud,<br><em>nuestra prioridad</em></h1>
+      <p class="hero-sub">
+        En Vitalmed combinamos tecnología de vanguardia con un trato cercano y humano
+        para ofrecerte el cuidado que vos y tu familia merecen.
+      </p>
+      <div class="hero-actions">
+        <a href="#contacto" class="btn btn-gold">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/>
+          </svg>
+          Sacar turno
+        </a>
+        <a href="#especialidades" class="btn btn-outline">Ver especialidades</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─ POR QUÉ ELEGIRNOS ──────────────────────────────── -->
+  <section class="why-us" id="equipo">
+    <div class="why-header">
+      <span class="section-label">¿Por qué elegirnos?</span>
+      <h2 class="section-title">Comprometidos con tu bienestar</h2>
+      <p class="section-sub">Más de 15 años acompañando a las familias de la región con profesionalismo, calidez y los estándares más altos de calidad médica.</p>
+    </div>
+    <div class="why-grid">
+      <div class="why-card">
+        <div class="why-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="8" r="5"/><path d="M3 21v-1a9 9 0 0 1 18 0v1"/><path d="M9 11l2 2 4-4"/>
+          </svg>
+        </div>
+        <h3>Experiencia comprobada</h3>
+        <p>Un equipo de más de 40 profesionales con formación continua, especializaciones internacionales y miles de pacientes atendidos con resultados excelentes.</p>
+      </div>
+      <div class="why-card">
+        <div class="why-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M9 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V9l-6-6z"/><path d="M9 3v6h6"/>
+            <line x1="12" y1="12" x2="12" y2="16"/><line x1="10" y1="14" x2="14" y2="14"/>
+          </svg>
+        </div>
+        <h3>Tecnología de vanguardia</h3>
+        <p>Equipamiento de última generación para diagnóstico por imágenes, laboratorio en el día y teleconsulta, garantizando precisión y rapidez en cada diagnóstico.</p>
+      </div>
+      <div class="why-card">
+        <div class="why-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+          </svg>
+        </div>
+        <h3>Atención personalizada</h3>
+        <p>Cada paciente es único. Diseñamos planes de salud adaptados a tu historia clínica, estilo de vida y objetivos, con seguimiento personalizado en cada etapa.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─ ESPECIALIDADES ─────────────────────────────────── -->
+  <section class="specialties" id="especialidades">
+    <span class="section-label">Nuestras especialidades</span>
+    <h2 class="section-title">Salud integral bajo un mismo techo</h2>
+    <p class="section-sub">Contamos con las especialidades que tu familia necesita, con profesionales de alta formación y agenda flexible.</p>
+    <div class="spec-grid">
+      <!-- Clínica médica -->
+      <div class="spec-card">
+        <div class="spec-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M22 12h-4l-3 9L9 3l-3 9H2"/>
+          </svg>
+        </div>
+        <h3>Clínica Médica</h3>
+        <p>Control anual, manejo de enfermedades crónicas, chequeos preventivos y derivación oportuna.</p>
+        <a href="#contacto" class="spec-link">
+          Pedir turno
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M5 12h14M12 5l7 7-7 7"/>
+          </svg>
+        </a>
+      </div>
+      <!-- Pediatría -->
+      <div class="spec-card">
+        <div class="spec-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="7" r="4"/><path d="M8 14s-4 1-4 5h16c0-4-4-5-4-5"/>
+            <path d="M15 11l1.5 3M9 11L7.5 14"/>
+          </svg>
+        </div>
+        <h3>Pediatría</h3>
+        <p>Seguimiento del desarrollo infantil, vacunas, urgencias pediátricas y consejería para padres.</p>
+        <a href="#contacto" class="spec-link">
+          Pedir turno
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M5 12h14M12 5l7 7-7 7"/>
+          </svg>
+        </a>
+      </div>
+      <!-- Cardiología -->
+      <div class="spec-card">
+        <div class="spec-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+          </svg>
+        </div>
+        <h3>Cardiología</h3>
+        <p>Electrocardiograma, ecocardiograma, Holter y evaluación integral del riesgo cardiovascular.</p>
+        <a href="#contacto" class="spec-link">
+          Pedir turno
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M5 12h14M12 5l7 7-7 7"/>
+          </svg>
+        </a>
+      </div>
+      <!-- Kinesiología -->
+      <div class="spec-card">
+        <div class="spec-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="5" r="2"/><path d="M12 7v5l3 3M9 12l-3 6M15 12l3 6M7 16h10"/>
+          </svg>
+        </div>
+        <h3>Kinesiología</h3>
+        <p>Rehabilitación post-quirúrgica, tratamiento del dolor, kinesiotaping y recuperación deportiva.</p>
+        <a href="#contacto" class="spec-link">
+          Pedir turno
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M5 12h14M12 5l7 7-7 7"/>
+          </svg>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─ TESTIMONIOS ────────────────────────────────────── -->
+  <section class="testimonials">
+    <span class="section-label">Testimonios</span>
+    <h2 class="section-title">Lo que dicen nuestros pacientes</h2>
+    <p class="section-sub">La confianza de quienes nos eligen es el mejor reflejo de nuestro trabajo.</p>
+    <div class="testi-grid">
+      <div class="testi-card">
+        <div class="stars">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+        </div>
+        <p class="testi-text">"Llevo tres años atendiendo a toda mi familia en Vitalmed. Los médicos se toman el tiempo necesario para explicarte todo con paciencia. Nunca me sentí un número más."</p>
+        <div class="testi-author">
+          <div class="testi-avatar">MG</div>
+          <div>
+            <div class="testi-name">María González</div>
+            <div class="testi-role">Paciente de Clínica Médica</div>
+          </div>
+        </div>
+      </div>
+      <div class="testi-card">
+        <div class="stars">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+        </div>
+        <p class="testi-text">"Mi hijo tiene seis años y siempre fue complicado llevarlo al médico. En Vitalmed la pediatra lo recibe con una calidez increíble. Ahora él mismo pide ir."</p>
+        <div class="testi-author">
+          <div class="testi-avatar">RM</div>
+          <div>
+            <div class="testi-name">Rodrigo Martínez</div>
+            <div class="testi-role">Padre, paciente de Pediatría</div>
+          </div>
+        </div>
+      </div>
+      <div class="testi-card">
+        <div class="stars">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+        </div>
+        <p class="testi-text">"Después de mi operación de rodilla hice toda la rehabilitación acá. El equipo de kinesiología es de primera: profesionales, dedicados y muy motivadores. Volví a correr."</p>
+        <div class="testi-author">
+          <div class="testi-avatar">LC</div>
+          <div>
+            <div class="testi-name">Laura Campos</div>
+            <div class="testi-role">Paciente de Kinesiología</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─ CTA FINAL ──────────────────────────────────────── -->
+  <section class="cta-section" id="contacto">
+    <span class="section-label">¿Listo para empezar?</span>
+    <h2 class="section-title" style="color:#fff;">Tu primera consulta está<br>a un clic de distancia</h2>
+    <p>Reservá tu turno online en segundos o comunicate directamente con nuestro equipo. Estamos para ayudarte cuando más lo necesitás.</p>
+    <div class="cta-actions">
+      <a href="tel:+54000000000" class="btn btn-gold">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 13a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.6 2.18h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 9.91a16 16 0 0 0 6.12 6.12l.91-.91a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/>
+        </svg>
+        Contactanos
+      </a>
+      <a href="mailto:info@vitalmed.com.ar" class="btn btn-outline">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/>
+        </svg>
+        Enviar mail
+      </a>
+    </div>
+  </section>
+
+  <!-- ─ FOOTER ─────────────────────────────────────────── -->
+  <footer>
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <div class="logo" style="margin-bottom:14px;">
+          <div class="logo-icon">
+            <svg viewBox="0 0 24 24" fill="none">
+              <path d="M12 4v4m0 8v4M4 12h4m8 0h4" stroke="#1a3d5c" stroke-width="2" stroke-linecap="round"/>
+              <circle cx="12" cy="12" r="3" fill="#1a3d5c"/>
+            </svg>
+          </div>
+          <span class="logo-wordmark">Vital<span>med</span></span>
+        </div>
+        <p>Centro médico integral comprometido con la salud y el bienestar de tu familia, con más de 15 años de trayectoria.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Contacto</h4>
+        <ul>
+          <li>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round">
+              <path d="M21 10c0 7-9 13-9 13S3 17 3 10a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/>
+            </svg>
+            Av. San Martín 1245, piso 2, Buenos Aires
+          </li>
+          <li>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round">
+              <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 13a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.6 2.18h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 9.91a16 16 0 0 0 6.12 6.12l.91-.91a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/>
+            </svg>
+            <a href="tel:+5401100000000">(011) 0000-0000</a>
+          </li>
+          <li>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round">
+              <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/>
+            </svg>
+            <a href="mailto:info@vitalmed.com.ar">info@vitalmed.com.ar</a>
+          </li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Horarios</h4>
+        <ul>
+          <li>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round">
+              <circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>
+            </svg>
+            Lun–Vie: 8:00 a 20:00
+          </li>
+          <li>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round">
+              <circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>
+            </svg>
+            Sáb: 8:00 a 14:00
+          </li>
+          <li>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round">
+              <circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>
+            </svg>
+            Guardias: 24 hs
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2025 Vitalmed. Todos los derechos reservados.</span>
+      <span>Diseñado con cuidado para vos</span>
+    </div>
+  </footer>
+
+  <script>
+    // Hamburger toggle
+    const btn = document.getElementById('menu-btn');
+    const nav = document.getElementById('main-nav');
+    btn.addEventListener('click', () => {
+      nav.classList.toggle('open');
+    });
+    // Close on link click (mobile)
+    nav.querySelectorAll('a').forEach(a => {
+      a.addEventListener('click', () => nav.classList.remove('open'));
+    });
+  </script>
+</body>
+</html>
